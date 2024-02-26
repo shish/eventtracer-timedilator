@@ -11,3 +11,10 @@ Before:
 
 After:
 ![after](./.github/after.png)
+
+
+How do I use it
+---------------
+```
+cargo run -- input.json output.json
+```
