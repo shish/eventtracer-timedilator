@@ -18,3 +18,7 @@ How do I use it
 ```
 cargo run -- input.json output.json
 ```
+
+```
+cargo run -- input.json   # will write to input.td.json
+```

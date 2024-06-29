@@ -91,7 +91,7 @@ struct Cli {
     #[clap()]
     input: PathBuf,
     #[clap()]
-    output: PathBuf,
+    output: Option<PathBuf>,
 }
 
 #[derive(Copy, Clone)]
@@ -106,7 +106,12 @@ struct ThreadStat {
     state: ThreadState,
 }
 fn main() -> Result<()> {
-    let args = Cli::parse();
+    let mut args = Cli::parse();
+    if args.output.is_none() {
+        let mut out2 = args.input.clone();
+        out2.set_extension("td.json");
+        args.output = Some(out2);
+    }
 
     // keep popping the final character from data until we reach
     // the end of an object, then close it properly. This accounts
@@ -166,7 +171,7 @@ fn main() -> Result<()> {
 
     // write the modified events to a new file
     let modified_data = serde_json::to_string(&events)?;
-    fs::write(args.output, modified_data)?;
+    fs::write(args.output.unwrap(), modified_data)?;
 
     Ok(())
 }
